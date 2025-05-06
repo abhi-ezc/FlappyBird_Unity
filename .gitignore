@@ -1,0 +1,65 @@
+# Unity generated folders
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+
+# User-specific settings
+UserSettings/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+
+# Unity auto-generated files
+*.pdb
+*.mdb
+
+# Visual Studio / Rider / VS Code settings
+.vscode/
+.idea/
+*.code-workspace
+
+# OS generated files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Crash reports
+sysinfo.txt
+
+# Builds
+*.apk
+*.aab
+*.app
+*.exe
+*.ipa
+*.xcodeproj
+
+# Unity Collaborate (optional, if not used)
+.collabignore
+
+# Addressables
+[Aa]sset[Bb]undles/
+*.bin
+*.bundle
+*.manifest
+
+# Plastic SCM (if not using it)
+.plastic/
+
+# Visual Studio Code settings
+.vscode/
+
+# Visual Studio
+.vs
+.vsconfig
