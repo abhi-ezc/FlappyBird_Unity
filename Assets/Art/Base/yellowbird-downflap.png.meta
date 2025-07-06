@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 502da0d1fad23554a950120e69ed2292
+guid: 02ea2d9f67c739442a0f836458b2078e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4672514779453497517
-    second: yellowbird-upflap_0
+      213: 6437894598648814375
+    second: yellowbird-downflap_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,11 +109,24 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: yellowbird-upflap_0
+      name: yellowbird-downflap_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: da0a6159f6b18d040800000000000000
-      internalID: 4672514779453497517
+      spriteID: 72b5edd270ff75950800000000000000
+      internalID: 6437894598648814375
       vertices: []
       indices: 
       edges: []
@@ -148,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      yellowbird-upflap_0: 4672514779453497517
+      yellowbird-downflap_0: 6437894598648814375
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

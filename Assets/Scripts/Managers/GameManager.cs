@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public EGamePhase gamePhase { get; private set; }
+    public UnityEvent<EGamePhase> OnGamePhaseChanged;
+    public UnityEvent<int> onScoreChanged;
     public UnityEvent onGameOver;
     private int gameScore = 0;
 
@@ -31,11 +33,13 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         onGameOver = new UnityEvent();
+        OnGamePhaseChanged = new UnityEvent<EGamePhase>();
+        onScoreChanged = new UnityEvent<int>();
     }
 
     void Start()
     {
-        SetGamePhase(EGamePhase.GamePlay);
+        SetGamePhase(EGamePhase.MainMenu);
     }
 
     void Update()
@@ -46,6 +50,7 @@ public class GameManager : MonoBehaviour
     void SetGamePhase(EGamePhase gamePhase)
     {
         this.gamePhase = gamePhase;
+        OnGamePhaseChanged?.Invoke(gamePhase);
     }
 
     public void SetGameOver()
@@ -57,6 +62,25 @@ public class GameManager : MonoBehaviour
     public void OnTriggerScore()
     {
         AudioManager.Instance.playSoundEffect(EAudioClipType.Score);
+        IncrementScore();
+    }
+
+    public void StartGame()
+    {
+        Debug.Log("Game Started");
+        ResetScore();
+        SetGamePhase(EGamePhase.GamePlay);  
+    }
+
+    private void ResetScore()
+    {
+        gameScore = 0;
+        onScoreChanged?.Invoke(gameScore);
+    }
+
+    private void IncrementScore()
+    {
         gameScore++;
+        onScoreChanged?.Invoke(gameScore);
     }
 }

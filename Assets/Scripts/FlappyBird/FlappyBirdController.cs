@@ -10,25 +10,19 @@ public class FlappyBirdController : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.Instance.gamePhase  == EGamePhase.GamePlay) 
-        {
-            UpdateRotation();
-        }
-        
+        UpdateRotation();
     }
 
     private void OnEnable()
     {
-        rigidbody2D.simulated = true;
         InputManager.Instance.onFlap.AddListener(OnFlapListener);
-        GameManager.Instance.onGameOver.AddListener(OnGameOverListener);
+        GameManager.Instance.OnGamePhaseChanged.AddListener(OnGamePhaseChangedListener);
     }
 
     private void OnDisable()
     {
         rigidbody2D.simulated= false;
         InputManager.Instance.onFlap.RemoveListener(OnFlapListener);
-        GameManager.Instance.onGameOver.RemoveListener(OnGameOverListener);
     }
 
     private void OnFlapListener()
@@ -38,6 +32,7 @@ public class FlappyBirdController : MonoBehaviour
 
     void UpdateRotation()
     {
+        if(!rigidbody2D.simulated) return;
         float angle = (Mathf.Atan2(rigidbody2D.linearVelocityY, rigidbody2D.linearVelocityX) * 180) / Mathf.PI;
         Quaternion newRot = Quaternion.Euler(0, 0, angle);
         transform.rotation = Quaternion.Lerp(transform.rotation, newRot, Time.deltaTime * rotLerpSpeed);
@@ -51,14 +46,28 @@ public class FlappyBirdController : MonoBehaviour
         }
     }
 
-    private void OnGameOverListener()
-    {
-        animator.enabled = false;
-        rigidbody2D.simulated = false;
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameManager.Instance.OnTriggerScore();
+    }
+
+    private void OnGamePhaseChangedListener(EGamePhase gamePhase)
+    {
+        Debug.Log($"Game Phase Changed: {gamePhase}");
+        if (gamePhase == EGamePhase.MainMenu)
+        {
+            animator.enabled = true;
+            rigidbody2D.simulated = false;
+        }
+        else if (gamePhase == EGamePhase.GamePlay)
+        {
+            animator.enabled = true;
+            rigidbody2D.simulated = true;
+        }
+        else if (gamePhase == EGamePhase.GameOver)
+        {
+            animator.enabled = false;
+            rigidbody2D.simulated = false;
+        }
     }
 }

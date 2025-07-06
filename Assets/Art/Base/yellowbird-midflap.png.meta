@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 37ed0d3870885b94497953e0f3af200c
+guid: 7e1134a00a9dee7408b0128de5c9373e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4760720893975047759
-    second: background-day_0
+      213: -2852661201194558424
+    second: yellowbird-midflap_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -40,9 +40,9 @@ TextureImporter:
     filterMode: 0
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
-    wrapW: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -109,17 +109,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: background-day_0
+      name: yellowbird-midflap_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 288
-        height: 512
+        width: 34
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1b156dff1958eedb0800000000000000
-      internalID: -4760720893975047759
+      spriteID: 82c524660cf4968d0800000000000000
+      internalID: -2852661201194558424
       vertices: []
       indices: 
       edges: []
@@ -148,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      background-day_0: -4760720893975047759
+      yellowbird-midflap_0: -2852661201194558424
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
