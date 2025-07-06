@@ -7,6 +7,8 @@ public class PipeSpawner : MonoBehaviour
     [SerializeField] private Vector3 spawnPos;
     [SerializeField] private GameObject pipePrefab;
     [SerializeField] private float spawnInterval = 4f;
+    [SerializeField] private float MinY = -0.65f;
+    [SerializeField] private float MaxY = 1.4f;
 
     Coroutine spawnCoroutine;
 
@@ -32,7 +34,8 @@ public class PipeSpawner : MonoBehaviour
             GameObject go = PipePoolManager.Instance.GetItemFromPool();
             go.transform.parent = transform;
             go.transform.rotation = Quaternion.identity;
-            go.transform.localPosition = spawnPos;
+            Vector3 locPos = new Vector3(spawnPos.x, Random.Range(MinY, MaxY), spawnPos.z);
+            go.transform.localPosition = locPos;
             go.SetActive(true);
         }
     }

@@ -10,7 +10,11 @@ public class FlappyBirdController : MonoBehaviour
 
     private void Update()
     {
-        UpdateRotation();
+        if (GameManager.Instance.gamePhase  == EGamePhase.GamePlay) 
+        {
+            UpdateRotation();
+        }
+        
     }
 
     private void OnEnable()
@@ -51,5 +55,10 @@ public class FlappyBirdController : MonoBehaviour
     {
         animator.enabled = false;
         rigidbody2D.simulated = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        GameManager.Instance.OnTriggerScore();
     }
 }

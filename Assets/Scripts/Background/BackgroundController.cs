@@ -1,18 +1,21 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BackgroundController : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer floorSR;
     [SerializeField] private SpriteRenderer skySR;
-    private string scrollKey = "_CanScroll";
+
+    private float scrollTime;
+    private const string scrollTimeKey = "_ScrollTime";
 
     private void Start()
     {
-        SetCanScroll(1);
     }
 
     private void OnEnable()
     {
+        scrollTime = 0;
         GameManager.Instance.onGameOver.AddListener(OnGameOverHandler);
     }
 
@@ -23,12 +26,20 @@ public class BackgroundController : MonoBehaviour
 
     private void OnGameOverHandler()
     {
-        SetCanScroll(0);
+        this.enabled = false;
     }
 
-    private void SetCanScroll(float canScroll)
+    private void Update()
     {
-        floorSR.material.SetFloat(scrollKey, canScroll);
-        skySR.material.SetFloat(scrollKey, canScroll);
+        UpdateScrollTime();
     }
+
+    private void UpdateScrollTime()
+    {
+        scrollTime += Time.deltaTime;
+        floorSR.material.SetFloat(scrollTimeKey, scrollTime);
+        skySR.material.SetFloat(scrollTimeKey, scrollTime);
+    }
+
+
 }

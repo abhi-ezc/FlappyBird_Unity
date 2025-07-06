@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5774700523424773360}
   - component: {fileID: 5350007567293260720}
   - component: {fileID: 4331250705348397974}
-  - component: {fileID: 6388386020586352319}
+  - component: {fileID: 8045668982415905711}
   m_Layer: 31
   m_Name: FlappyBird_Visual
   m_TagString: Untagged
@@ -111,8 +111,8 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!61 &6388386020586352319
-BoxCollider2D:
+--- !u!60 &8045668982415905711
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -155,5 +155,41 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.34, y: 0.24}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.05, y: 0.12}
+      - {x: -0.05, y: 0.1}
+      - {x: -0.09, y: 0.1}
+      - {x: -0.09, y: 0.08}
+      - {x: -0.11, y: 0.08}
+      - {x: -0.11, y: 0.06}
+      - {x: -0.13, y: 0.06}
+      - {x: -0.13, y: 0.04}
+      - {x: -0.15, y: 0.04}
+      - {x: -0.15, y: -0.02}
+      - {x: -0.17, y: -0.02}
+      - {x: -0.17, y: -0.08}
+      - {x: -0.15, y: -0.08}
+      - {x: -0.15, y: -0.1}
+      - {x: -0.07, y: -0.1}
+      - {x: -0.07, y: -0.12}
+      - {x: 0.03, y: -0.12}
+      - {x: 0.03, y: -0.1}
+      - {x: 0.13, y: -0.1}
+      - {x: 0.13, y: -0.08}
+      - {x: 0.15, y: -0.08}
+      - {x: 0.15, y: -0.04}
+      - {x: 0.17, y: -0.04}
+      - {x: 0.17, y: -0.02}
+      - {x: 0.15, y: -0.02}
+      - {x: 0.15, y: 0}
+      - {x: 0.13, y: 0}
+      - {x: 0.13, y: 0.06}
+      - {x: 0.11, y: 0.06}
+      - {x: 0.11, y: 0.08}
+      - {x: 0.09, y: 0.08}
+      - {x: 0.09, y: 0.1}
+      - {x: 0.07, y: 0.1}
+      - {x: 0.07, y: 0.12}
+      - {x: -0.05, y: 0.12}
+  m_UseDelaunayMesh: 0

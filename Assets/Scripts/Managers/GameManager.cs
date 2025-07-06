@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public EGamePhase gamePhase { get; private set; }
     public UnityEvent onGameOver;
+    private int gameScore = 0;
 
     private void Awake()
     {
@@ -51,5 +52,11 @@ public class GameManager : MonoBehaviour
     {
        SetGamePhase(EGamePhase.GameOver);
         onGameOver?.Invoke();
+    }
+
+    public void OnTriggerScore()
+    {
+        AudioManager.Instance.playSoundEffect(EAudioClipType.Score);
+        gameScore++;
     }
 }
