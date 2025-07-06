@@ -4,6 +4,7 @@ using UnityEngine.Events;
 public enum EGamePhase
 {
     MainMenu,
+    GetReady,
     GamePlay,
     GameOver
 }
@@ -12,14 +13,15 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public EGamePhase gamePhase { get; private set; }
-    public UnityEvent<EGamePhase> OnGamePhaseChanged;
+    public UnityEvent<EGamePhase> onGamePhaseChanged;
     public UnityEvent<int> onScoreChanged;
     public UnityEvent onGameOver;
+    public UnityEvent onRestartGame;
     private int gameScore = 0;
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
@@ -33,8 +35,9 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         onGameOver = new UnityEvent();
-        OnGamePhaseChanged = new UnityEvent<EGamePhase>();
+        onGamePhaseChanged = new UnityEvent<EGamePhase>();
         onScoreChanged = new UnityEvent<int>();
+        onRestartGame = new UnityEvent();
     }
 
     void Start()
@@ -44,18 +47,18 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     void SetGamePhase(EGamePhase gamePhase)
     {
         this.gamePhase = gamePhase;
-        OnGamePhaseChanged?.Invoke(gamePhase);
+        onGamePhaseChanged?.Invoke(gamePhase);
     }
 
     public void SetGameOver()
     {
-       SetGamePhase(EGamePhase.GameOver);
+        SetGamePhase(EGamePhase.GameOver);
         onGameOver?.Invoke();
     }
 
@@ -65,9 +68,13 @@ public class GameManager : MonoBehaviour
         IncrementScore();
     }
 
+    public void StartGetReady()
+    {
+        SetGamePhase(EGamePhase.GetReady);
+    }
+
     public void StartGame()
     {
-        Debug.Log("Game Started");
         ResetScore();
         SetGamePhase(EGamePhase.GamePlay);  
     }
@@ -82,5 +89,11 @@ public class GameManager : MonoBehaviour
     {
         gameScore++;
         onScoreChanged?.Invoke(gameScore);
+    }
+
+    public void RestartGame()
+    {
+        onRestartGame?.Invoke();
+        StartGetReady();
     }
 }
