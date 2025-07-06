@@ -4,7 +4,6 @@ This is a Flappy Bird clone built with Unity.
 
 ## Features
 - Classic Flappy Bird gameplay
-- Custom art and sounds
 - Mobile and desktop builds
 - Unity Addressables support
 
