@@ -8,25 +8,19 @@ public class BackgroundController : MonoBehaviour
 
     private float scrollTime;
     private const string scrollTimeKey = "_ScrollTime";
-
-    private void Start()
-    {
-    }
+    private bool canAddScrollTime = true;
 
     private void OnEnable()
     {
         scrollTime = 0;
-        GameManager.Instance.onGameOver.AddListener(OnGameOverHandler);
+        GameManager.Instance.onGamePhaseChanged.AddListener(OnGamePhaseChangedListener);
+        GameManager.Instance.onRestartGame.AddListener(OnRestartGameListener);
     }
 
     private void OnDisable()
     {
-        GameManager.Instance.onGameOver.RemoveListener(OnGameOverHandler);
-    }
-
-    private void OnGameOverHandler()
-    {
-        this.enabled = false;
+        GameManager.Instance.onGamePhaseChanged.RemoveListener(OnGamePhaseChangedListener);
+        GameManager.Instance.onRestartGame.RemoveListener(OnRestartGameListener);
     }
 
     private void Update()
@@ -36,10 +30,22 @@ public class BackgroundController : MonoBehaviour
 
     private void UpdateScrollTime()
     {
-        scrollTime += Time.deltaTime;
-        floorSR.material.SetFloat(scrollTimeKey, scrollTime);
-        skySR.material.SetFloat(scrollTimeKey, scrollTime);
+        if(canAddScrollTime)
+        {
+            scrollTime += Time.deltaTime;
+            floorSR.material.SetFloat(scrollTimeKey, scrollTime);
+            skySR.material.SetFloat(scrollTimeKey, scrollTime);
+        }
     }
 
+    private void OnGamePhaseChangedListener(EGamePhase gamePhase)
+    {
+        canAddScrollTime = gamePhase != EGamePhase.GameOver;
+    }
+
+    private void OnRestartGameListener()
+    {
+        scrollTime = 0;
+    }
 
 }

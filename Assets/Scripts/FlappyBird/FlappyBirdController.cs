@@ -7,6 +7,13 @@ public class FlappyBirdController : MonoBehaviour
     [SerializeField] private float rotLerpSpeed = 10f;
     [SerializeField] private LayerMask gameOverLayerMasks;
     [SerializeField] private Animator animator;
+    private Vector3 SpawnLocation;
+    private Quaternion SpawnRotation;
+
+    private void Start()
+    {
+        
+    }
 
     private void Update()
     {
@@ -15,14 +22,19 @@ public class FlappyBirdController : MonoBehaviour
 
     private void OnEnable()
     {
+        SpawnLocation = transform.position;
+        SpawnRotation = transform.rotation;
         InputManager.Instance.onFlap.AddListener(OnFlapListener);
-        GameManager.Instance.OnGamePhaseChanged.AddListener(OnGamePhaseChangedListener);
+        GameManager.Instance.onGamePhaseChanged.AddListener(OnGamePhaseChangedListener);
+        GameManager.Instance.onRestartGame.AddListener(OnRestartGameListener);
     }
 
     private void OnDisable()
     {
-        rigidbody2D.simulated= false;
+        rigidbody2D.simulated = false;
         InputManager.Instance.onFlap.RemoveListener(OnFlapListener);
+        GameManager.Instance.onGamePhaseChanged.RemoveListener(OnGamePhaseChangedListener);
+        GameManager.Instance.onRestartGame.RemoveListener(OnRestartGameListener);
     }
 
     private void OnFlapListener()
@@ -32,7 +44,7 @@ public class FlappyBirdController : MonoBehaviour
 
     void UpdateRotation()
     {
-        if(!rigidbody2D.simulated) return;
+        if (!rigidbody2D.simulated) return;
         float angle = (Mathf.Atan2(rigidbody2D.linearVelocityY, rigidbody2D.linearVelocityX) * 180) / Mathf.PI;
         Quaternion newRot = Quaternion.Euler(0, 0, angle);
         transform.rotation = Quaternion.Lerp(transform.rotation, newRot, Time.deltaTime * rotLerpSpeed);
@@ -40,7 +52,7 @@ public class FlappyBirdController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(( gameOverLayerMasks & 1 << collision.gameObject.layer) !=0)
+        if ((gameOverLayerMasks & 1 << collision.gameObject.layer) != 0)
         {
             GameManager.Instance.SetGameOver();
         }
@@ -51,23 +63,33 @@ public class FlappyBirdController : MonoBehaviour
         GameManager.Instance.OnTriggerScore();
     }
 
+    private void OnRestartGameListener()
+    {
+        Debug.Log(SpawnLocation);
+        transform.position = SpawnLocation;
+        transform.rotation = SpawnRotation;
+    }
+
     private void OnGamePhaseChangedListener(EGamePhase gamePhase)
     {
         Debug.Log($"Game Phase Changed: {gamePhase}");
-        if (gamePhase == EGamePhase.MainMenu)
+        switch (gamePhase)
         {
-            animator.enabled = true;
-            rigidbody2D.simulated = false;
-        }
-        else if (gamePhase == EGamePhase.GamePlay)
-        {
-            animator.enabled = true;
-            rigidbody2D.simulated = true;
-        }
-        else if (gamePhase == EGamePhase.GameOver)
-        {
-            animator.enabled = false;
-            rigidbody2D.simulated = false;
+            case EGamePhase.MainMenu:
+            case EGamePhase.GetReady:
+                animator.enabled = true;
+                rigidbody2D.simulated = false;
+                break;
+
+            case EGamePhase.GameOver:
+                animator.enabled = false;
+                rigidbody2D.simulated = false;
+                break;
+
+            case EGamePhase.GamePlay:
+                animator.enabled = true;
+                rigidbody2D.simulated = true;
+                break;
         }
     }
 }

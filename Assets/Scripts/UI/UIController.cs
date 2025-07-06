@@ -6,6 +6,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject mainMenuPanel;
     [SerializeField] private GameObject gamePlayPanel;
     [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private GameObject getReadyPanel;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -15,19 +16,20 @@ public class UIController : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.Instance.OnGamePhaseChanged.AddListener(OnGamePhaseChanged);
+        GameManager.Instance.onGamePhaseChanged.AddListener(OnGamePhaseChanged);
     }
 
     private void OnDisable()
     {
-        GameManager.Instance.OnGamePhaseChanged.RemoveListener(OnGamePhaseChanged);
+        GameManager.Instance.onGamePhaseChanged.RemoveListener(OnGamePhaseChanged);
     }
 
 
     void OnGamePhaseChanged(EGamePhase gamePhase)
     {
         mainMenuPanel.SetActive(gamePhase == EGamePhase.MainMenu);
-        gamePlayPanel.SetActive(gamePhase == EGamePhase.GamePlay || gamePhase == EGamePhase.GameOver); // for gameover also we are showing gameplaypanel
+        getReadyPanel.SetActive(gamePhase == EGamePhase.GetReady);
+        gamePlayPanel.SetActive(gamePhase == EGamePhase.GamePlay || gamePhase == EGamePhase.GameOver); // temporary
         gameOverPanel.SetActive(gamePhase == EGamePhase.GameOver);
     }
 }
