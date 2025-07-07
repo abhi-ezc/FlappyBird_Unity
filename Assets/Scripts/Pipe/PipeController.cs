@@ -7,6 +7,12 @@ public class PipeController : MonoBehaviour
     private void OnEnable()
     {
         endLoc = new Vector3(0, transform.localPosition.y,0);
+        GameManager.Instance.onRestartGame.AddListener(OnRestartGameListener);
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.onRestartGame.RemoveListener(OnRestartGameListener);
     }
 
     void FixedUpdate()
@@ -19,5 +25,10 @@ public class PipeController : MonoBehaviour
                 PipePoolManager.Instance.ReturnItemToPool(gameObject);
             }
         }
+    }
+
+    private void OnRestartGameListener()
+    {
+        PipePoolManager.Instance.ReturnItemToPool(gameObject);
     }
 }

@@ -12,6 +12,16 @@ public class PipeSpawner : MonoBehaviour
 
     Coroutine spawnCoroutine;
 
+    private void OnEnable()
+    {
+        GameManager.Instance.onRestartGame.AddListener(OnRestartGameListener);
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.onRestartGame.RemoveListener(OnRestartGameListener);
+    }
+
     private void FixedUpdate()
     {
         if (spawnCoroutine == null && GameManager.Instance.gamePhase == EGamePhase.GamePlay)
@@ -38,5 +48,10 @@ public class PipeSpawner : MonoBehaviour
             go.transform.localPosition = locPos;
             go.SetActive(true);
         }
+    }
+
+    private void OnRestartGameListener()
+    {
+        // later we can adjust spawn intervals for pipe if needed
     }
 }
