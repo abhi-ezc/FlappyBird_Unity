@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public UnityEvent onGameOver;
     public UnityEvent onRestartGame;
     private int gameScore = 0;
+    private const int TargetFrameRate = 60;
 
     private void Awake()
     {
@@ -42,6 +43,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        Application.targetFrameRate = TargetFrameRate;
         SetGamePhase(EGamePhase.MainMenu);
     }
 
