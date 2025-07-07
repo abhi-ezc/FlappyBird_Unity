@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class GameplayPanel : MonoBehaviour
@@ -14,21 +14,24 @@ public class GameplayPanel : MonoBehaviour
 
     private const int poolSize = 5; // Size of the pool
     private Queue<GameObject> scoreImagePool = new Queue<GameObject>(); // Pool for score images
+    private List<GameObject> scoreImagesInUse = new List<GameObject>();
 
     void Start()
     {
-        WarmScoreImagePool();
     }
 
     private void OnEnable()
     {
+        WarmScoreImagePool();
         GameManager.Instance.onScoreChanged.AddListener(OnScoreChangedListener);
+        GameManager.Instance.onGameOver.AddListener(OnGameOverListener);
+        UpdateScoreImages(GameManager.Instance.GetCurrentScore());
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        GameManager.Instance.onScoreChanged.RemoveListener(OnScoreChangedListener);
+        GameManager.Instance.onGameOver.RemoveListener(OnGameOverListener);
     }
 
     private void WarmScoreImagePool()
@@ -47,6 +50,7 @@ public class GameplayPanel : MonoBehaviour
         if (scoreImagePool.Count > 0)
         {
             GameObject scoreImage = scoreImagePool.Dequeue();
+            scoreImagesInUse.Add(scoreImage);
             scoreImage.SetActive(true);
             return scoreImage;
         }
@@ -57,18 +61,46 @@ public class GameplayPanel : MonoBehaviour
         }
     }
 
+    private void ReturnAllItemsToPool()
+    {
+        foreach(GameObject item in  scoreImagesInUse)
+        {
+            item.SetActive(false);
+            item.transform.parent = transform;
+            scoreImagePool.Enqueue(item);
+        }
+
+        scoreImagesInUse.Clear();
+    }
+
     private void OnScoreChangedListener(int score)
     {
-        int numberOfDigits = (int)Mathf.Floor(Mathf.Log10(score * 1)) + 1;
+        UpdateScoreImages(score);
+    }
+
+    private void UpdateScoreImages(int score)
+    {
+        int numberOfDigits = score > 0 ? ((int)Mathf.Floor(Mathf.Log10(score * 1)) + 1): 1;
         bool isRequiredNew = (numberOfDigits - scoreImageParent.childCount) > 0;
         if (isRequiredNew)
         {
             GameObject go = GetItemFromPool();
+            if(!go)
+            {
+                Debug.LogError("Score image pool is giving null");
+                return;
+            }
+
             Image image = go.GetComponent<Image>();
             go.transform.SetParent(scoreImageParent, false);
             go.SetActive(true);
         }
 
-        UtilityFunctions.CovertNumbersToImage(score,countSpriteImages,scoreImageParent.GetComponentsInChildren<Image>());
+        UtilityFunctions.CovertNumbersToImage(score, countSpriteImages, scoreImageParent.GetComponentsInChildren<Image>());
+    }
+
+    private void OnGameOverListener()
+    {
+        ReturnAllItemsToPool();
     }
 }

@@ -96,4 +96,9 @@ public class GameManager : MonoBehaviour
         onRestartGame?.Invoke();
         StartGetReady();
     }
+
+    public int GetCurrentScore()
+    {
+        return gameScore;
+    }
 }
