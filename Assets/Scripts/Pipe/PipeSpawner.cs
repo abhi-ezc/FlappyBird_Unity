@@ -41,12 +41,12 @@ public class PipeSpawner : MonoBehaviour
     {
         if(GameManager.Instance.gamePhase == EGamePhase.GamePlay)
         {
-            GameObject go = PipePoolManager.Instance.GetItemFromPool();
-            go.transform.parent = transform;
-            go.transform.rotation = Quaternion.identity;
+            PipeController newPipe = PipePoolManager.Instance.GetItemFromPool();
+            newPipe.gameObject.transform.parent = transform;
+            newPipe.gameObject.transform.rotation = Quaternion.identity;
             Vector3 locPos = new Vector3(spawnPos.x, Random.Range(MinY, MaxY), spawnPos.z);
-            go.transform.localPosition = locPos;
-            go.SetActive(true);
+            newPipe.gameObject.transform.localPosition = locPos;
+            newPipe.gameObject.SetActive(true);
         }
     }
 
