@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Generic object pool manager for Unity components.
+/// </summary>
 public class PoolManager<T> where T : Component
 {
     private Queue<T> pool = new Queue<T>();
@@ -11,6 +14,9 @@ public class PoolManager<T> where T : Component
     private bool isExpandable = false;
     private Transform parentTransform;
 
+    /// <summary>
+    /// Initializes the pool with the given configuration.
+    /// </summary>
     public void Initialize(int poolSize, GameObject objectPrefab, bool isExpandable, Transform parentTransform)
     {
 
@@ -26,6 +32,9 @@ public class PoolManager<T> where T : Component
         this.parentTransform = parentTransform;
     }
 
+    /// <summary>
+    /// Pre-instantiates objects to fill the pool.
+    /// </summary>
     public void WarmPool()
     {
         while (pool.Count < poolSize)
@@ -36,6 +45,9 @@ public class PoolManager<T> where T : Component
         }
     }
 
+    /// <summary>
+    /// Instantiates a new object for the pool.
+    /// </summary>
     private T CreateNewObjectForPool()
     {
         if (!UnityEngine.Object.Instantiate(objectPrefab, parentTransform, false).TryGetComponent<T>(out T newObject))
@@ -46,6 +58,9 @@ public class PoolManager<T> where T : Component
         return newObject;
     }
 
+    /// <summary>
+    /// Retrieves an object from the pool, or creates a new one if expandable.
+    /// </summary>
     public T Get()
     {
         if (pool.Count > 0)
@@ -62,10 +77,14 @@ public class PoolManager<T> where T : Component
         }
         else
         {
+            Debug.LogWarning("Pool is empty and not expandable.");
             return null;
         }
     }
 
+    /// <summary>
+    /// Returns an object to the pool.
+    /// </summary>
     public void Return(T item)
     {
         if (!itemsInUse.Contains(item))
@@ -86,6 +105,9 @@ public class PoolManager<T> where T : Component
         }
     }
 
+    /// <summary>
+    /// Returns a list of objects to the pool.
+    /// </summary>
     public void ReturnItems(List<T> items)
     {
         foreach (T item in items)
@@ -94,6 +116,9 @@ public class PoolManager<T> where T : Component
         }
     }
 
+    /// <summary>
+    /// Returns all objects in use to the pool.
+    /// </summary>
     public void ReturnAll()
     {
         foreach (T item in itemsInUse)
@@ -102,6 +127,9 @@ public class PoolManager<T> where T : Component
         }
     }
 
+    /// <summary>
+    /// Retrieves a specified number of objects from the pool.
+    /// </summary>
     public List<T> GetN(int n, bool canSetActive = false)
     {
         List<T> listN = new List<T>();
