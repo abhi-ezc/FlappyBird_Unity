@@ -66,6 +66,7 @@ public class FlappyBirdController : MonoBehaviour
     private void OnRestartGameListener()
     {
         Debug.Log(SpawnLocation);
+        rigidbody2D.linearVelocity = Vector2.zero;
         transform.position = SpawnLocation;
         transform.rotation = SpawnRotation;
     }

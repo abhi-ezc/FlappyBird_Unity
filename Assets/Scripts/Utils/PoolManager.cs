@@ -102,13 +102,13 @@ public class PoolManager<T> where T : Component
         }
     }
 
-    public List<T> GetN(int n, bool setActive = false)
+    public List<T> GetN(int n, bool canSetActive = false)
     {
         List<T> listN = new List<T>();
         while (n > 0)
         {
             T newItem = Get();
-            newItem.gameObject.SetActive(setActive);
+            newItem.gameObject.SetActive(canSetActive);
             listN.Add(newItem);
             n--;
         }
