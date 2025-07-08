@@ -23,7 +23,6 @@ public class PoolManager<T> where T : Component
         if (!objectPrefab.TryGetComponent<T>(out T prefabComponent))
         {
             Debug.LogError($"Pool Manager failed to initialize, prefab does not have required component {nameof(T)}");
-            throw new Exception($"Pool Manager failed to initialize, prefab does not have required component {nameof(T)}");
         }
 
         this.objectPrefab = objectPrefab;

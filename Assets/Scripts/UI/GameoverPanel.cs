@@ -13,7 +13,6 @@ public class GameoverPanel : MonoBehaviour
     [SerializeField] private Transform HighScoreParent;
 
     private int currentScore = 0;
-    private int highScore = 0;
 
     /// <summary>
     /// Registers the restart button click event.
@@ -30,6 +29,7 @@ public class GameoverPanel : MonoBehaviour
     {
         currentScore = GameManager.Instance.GetCurrentScore();
         UpdateCurrentScore();
+        UpdateHighScore();
     }
 
     /// <summary>
@@ -55,5 +55,10 @@ public class GameoverPanel : MonoBehaviour
     private void UpdateCurrentScore()
     {
         List<Image> csImages = ScoreImagePoolManager.Instance.ConvertNumberToImage(currentScore, CurrentScoreParent);
+    }
+
+    private void UpdateHighScore()
+    {
+        List<Image> hsImages = ScoreImagePoolManager.Instance.ConvertNumberToImage(GameManager.Instance.GetHighScore(), HighScoreParent);
     }
 }

@@ -2,6 +2,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Controls the Get Ready UI panel, including countdown and transition to gameplay.
+/// </summary>
 public class GetReadyPanel : MonoBehaviour
 {
     [Header("UI Elements")]
@@ -15,6 +18,9 @@ public class GetReadyPanel : MonoBehaviour
     private Coroutine counterCoroutine;
     private bool canRunCounter = false;
 
+    /// <summary>
+    /// Prepares the panel and enables the countdown when enabled.
+    /// </summary>
     private void OnEnable()
     {
         GetReadyTextImageBlock.SetActive(true);
@@ -22,6 +28,9 @@ public class GetReadyPanel : MonoBehaviour
         canRunCounter = true;
     }
 
+    /// <summary>
+    /// Resets the countdown state when disabled.
+    /// </summary>
     private void OnDisable()
     {
         counterCoroutine = null;
@@ -29,6 +38,9 @@ public class GetReadyPanel : MonoBehaviour
         currentCounterIndex = -1;
     }
 
+    /// <summary>
+    /// Starts the countdown coroutine if not already running.
+    /// </summary>
     private void LateUpdate()
     {
         if (counterCoroutine == null && canRunCounter)
@@ -37,6 +49,9 @@ public class GetReadyPanel : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Coroutine to update the countdown image and start the game when finished.
+    /// </summary>
     private IEnumerator UpdateCounterImage()
     {
         yield return new WaitForSeconds(1f);
