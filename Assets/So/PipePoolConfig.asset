@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: PipePoolConfig
   m_EditorClassIdentifier: 
   objectPrefab: {fileID: 8614999978037189356, guid: bea281c48a016364cba41838ac136180, type: 3}
-  poolSize: 10
+  poolSize: 20
   isExpandable: 0

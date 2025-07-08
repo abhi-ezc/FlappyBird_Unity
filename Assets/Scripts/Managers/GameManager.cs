@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+/// <summary>
+/// Enum representing the different phases of the game.
+/// </summary>
 public enum EGamePhase
 {
     MainMenu,
@@ -9,6 +12,10 @@ public enum EGamePhase
     GameOver
 }
 
+/// <summary>
+/// Manages the overall game state, score, and game phase transitions.
+/// Implements the Singleton pattern.
+/// </summary>
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -18,8 +25,12 @@ public class GameManager : MonoBehaviour
     public UnityEvent onGameOver;
     public UnityEvent onRestartGame;
     private int gameScore = 0;
+    private int highScore = 0;
     private const int TargetFrameRate = 60;
 
+    /// <summary>
+    /// Ensures only one instance of GameManager exists.
+    /// </summary>
     private void Awake()
     {
         if (Instance == null)
@@ -33,6 +44,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Initializes UnityEvents when enabled.
+    /// </summary>
     private void OnEnable()
     {
         onGameOver = new UnityEvent();
@@ -45,11 +59,7 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = TargetFrameRate;
         SetGamePhase(EGamePhase.MainMenu);
-    }
-
-    void Update()
-    {
-
+        LoadPrefs();
     }
 
     void SetGamePhase(EGamePhase gamePhase)
@@ -62,6 +72,7 @@ public class GameManager : MonoBehaviour
     {
         SetGamePhase(EGamePhase.GameOver);
         onGameOver?.Invoke();
+        UpdatePrefs();
     }
 
     public void OnTriggerScore()
@@ -78,7 +89,7 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         ResetScore();
-        SetGamePhase(EGamePhase.GamePlay);  
+        SetGamePhase(EGamePhase.GamePlay);
     }
 
     private void ResetScore()
@@ -91,6 +102,7 @@ public class GameManager : MonoBehaviour
     {
         gameScore++;
         onScoreChanged?.Invoke(gameScore);
+        UpdateHighScore();
     }
 
     public void RestartGame()
@@ -102,5 +114,28 @@ public class GameManager : MonoBehaviour
     public int GetCurrentScore()
     {
         return gameScore;
+    }
+
+    private void LoadPrefs()
+    {
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
+    }
+
+    private void UpdatePrefs()
+    {
+        PlayerPrefs.SetInt("HighScore", highScore);
+    }
+
+    public int GetHighScore()
+    {
+        return highScore;
+    }
+
+    private void UpdateHighScore()
+    {
+        if (gameScore > highScore)
+        {
+            highScore = gameScore;
+        }
     }
 }

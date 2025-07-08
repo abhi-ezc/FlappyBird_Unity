@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ScoreImagePoolConfig
   m_EditorClassIdentifier: 
   objectPrefab: {fileID: 59353954677880831, guid: 2c26d15c118f2f2438445068233d5ec8, type: 3}
-  poolSize: 10
+  poolSize: 20
   isExpandable: 0

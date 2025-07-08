@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Controls the Flappy Bird character, including movement, rotation, and collision handling.
+/// </summary>
 public class FlappyBirdController : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rigidbody2D;
@@ -10,16 +13,14 @@ public class FlappyBirdController : MonoBehaviour
     private Vector3 SpawnLocation;
     private Quaternion SpawnRotation;
 
-    private void Start()
-    {
-        
-    }
-
     private void Update()
     {
         UpdateRotation();
     }
 
+    /// <summary>
+    /// Registers for input and game events when enabled.
+    /// </summary>
     private void OnEnable()
     {
         SpawnLocation = transform.position;
@@ -29,6 +30,9 @@ public class FlappyBirdController : MonoBehaviour
         GameManager.Instance.onRestartGame.AddListener(OnRestartGameListener);
     }
 
+    /// <summary>
+    /// Unregisters from input and game events when disabled.
+    /// </summary>
     private void OnDisable()
     {
         rigidbody2D.simulated = false;
@@ -37,11 +41,17 @@ public class FlappyBirdController : MonoBehaviour
         GameManager.Instance.onRestartGame.RemoveListener(OnRestartGameListener);
     }
 
+    /// <summary>
+    /// Handles the flap input event.
+    /// </summary>
     private void OnFlapListener()
     {
         rigidbody2D.AddForce(Vector2.up * (flapPower - rigidbody2D.linearVelocityY), ForceMode2D.Impulse);
     }
 
+    /// <summary>
+    /// Updates the bird's rotation based on its velocity.
+    /// </summary>
     void UpdateRotation()
     {
         if (!rigidbody2D.simulated) return;
@@ -50,6 +60,9 @@ public class FlappyBirdController : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, newRot, Time.deltaTime * rotLerpSpeed);
     }
 
+    /// <summary>
+    /// Handles collision with game over layers.
+    /// </summary>
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if ((gameOverLayerMasks & 1 << collision.gameObject.layer) != 0)
@@ -65,7 +78,6 @@ public class FlappyBirdController : MonoBehaviour
 
     private void OnRestartGameListener()
     {
-        Debug.Log(SpawnLocation);
         rigidbody2D.linearVelocity = Vector2.zero;
         transform.position = SpawnLocation;
         transform.rotation = SpawnRotation;
@@ -73,7 +85,6 @@ public class FlappyBirdController : MonoBehaviour
 
     private void OnGamePhaseChangedListener(EGamePhase gamePhase)
     {
-        Debug.Log($"Game Phase Changed: {gamePhase}");
         switch (gamePhase)
         {
             case EGamePhase.MainMenu:
